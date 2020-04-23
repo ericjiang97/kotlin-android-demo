@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -22,21 +23,24 @@ class MainActivity : AppCompatActivity() {
         val stockCode = findViewById<EditText>(R.id.form_edit_text)
         val searchBtn  = findViewById<Button>(R.id.search)
 
+        val txtViewStockCode = findViewById<TextView>(R.id.txtView_StockCode)
+
         searchBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                Log.d(TAG, stockCode.getText().toString())
 
                 /**
                  Accessing context from a qualified this
                  DOC: https://kotlinlang.org/docs/reference/this-expressions.html#qualified
                 */
                 val queue = Volley.newRequestQueue(this@MainActivity)
-                val url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockCode}&apikey=${BuildConfig.ALPHAVANTAGE_API_KEY}"
+                val url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${stockCode.text}&apikey=${BuildConfig.ALPHAVANTAGE_API_KEY}"
 
                 val stringRequest = JsonObjectRequest(Request.Method.GET, url,null,
                     // OMG lamdas are beautiful in Kotlin
                     Response.Listener { response ->
                         print( "Response is: ${response.toString(2)}")
+
+                        txtViewStockCode.setText(stockCode.text.toString().toUpperCase())
                     },
                     Response.ErrorListener {
                         print("error")
