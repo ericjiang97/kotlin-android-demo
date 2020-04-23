@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Kotlin Test</string>
-    <string name="form_label_select_state">Select State</string>
+    <string name="form_label_stock_code">Enter Stock Code</string>
 </resources>
